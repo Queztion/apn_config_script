@@ -3,6 +3,7 @@
 ## modify ModemManager.service to add " --debug"
 SERVICE_FILE="/lib/systemd/system/ModemManager.service"
 STRING_DEBUG=" --debug"
+CURRENT_CONFIG=$(cat "$SERVICE_FILE")
 
 
 if grep -q 'debug' <<< "$CURRENT_CONFIG";then
