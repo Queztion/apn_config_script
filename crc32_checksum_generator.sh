@@ -1,5 +1,3 @@
-#! /bin/bash
-
 #!/bin/bash
 
 # Script to calculate the CRC32 checksum of 
@@ -21,7 +19,7 @@ cat $SYS_VENDOR | tee -a $OUTPUT_FILE
 echo "CRC32 checksum value for SYS_VENDOR:" | tee -a $OUTPUT_FILE
 crc32 $SYS_VENDOR | tee -a $OUTPUT_FILE
 
-echo ""
+echo "" | tee -a $OUTPUT_FILE
 
 echo "$PRODUCT_NAME:" | tee -a $OUTPUT_FILE
 cat $PRODUCT_NAME | tee -a $OUTPUT_FILE
@@ -29,11 +27,10 @@ echo "CRC32 checksum value for PRODUCT_NAME:" | tee -a $OUTPUT_FILE
 crc32 $PRODUCT_NAME | tee -a $OUTPUT_FILE
 
 
-echo ""
+echo "" | tee -a $OUTPUT_FILE
 
 echo "$PRODUCT_SKU:" | tee -a $OUTPUT_FILE
 cat $PRODUCT_SKU | tee -a $OUTPUT_FILE
 echo "CRC32 checksum value for PRODUCT_SKU:" | tee -a $OUTPUT_FILE
 crc32 $PRODUCT_SKU | tee -a $OUTPUT_FILE
-
 
