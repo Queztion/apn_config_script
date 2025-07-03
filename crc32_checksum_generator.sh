@@ -9,36 +9,35 @@
 #set -x # Enable debugging: Prints each command before execution
 
 OUTPUT_FILE="sys_vendor_crc32.txt"
-SYS_VENDOR=/sys/class/dmi/id/sys_vendor
-PRODUCT_NAME=/sys/class/dmi/id/product_name
-PRODUCT_SKU=/sys/class/dmi/id/product_sku
+SYS_VENDOR=$(cat /sys/class/dmi/id/sys_vendor)
+PRODUCT_NAME=$(cat /sys/class/dmi/id/product_name)
+PRODUCT_SKU=$(cat /sys/class/dmi/id/product_sku)
 
-SYS_VENDOR_CRC32=""
-PRODUCT_NAME_CRC32=""
-PRODUCT_SKU_CRC32=""
+# Can do it as one line 
+# echo -n $(cat /sys/class/dmi/id/sys_vendor) | crc32 /dev/stdin
+# but we prefer accessing the variables separately for clarity
+SYS_VENDOR_CRC32=$(echo -n $SYS_VENDOR | crc32 /dev/stdin) 
+# echo -n $(cat /sys/class/dmi/id/product_name) | crc32 /dev/stdin
+PRODUCT_NAME_CRC32=$(echo -n $PRODUCT_NAME | crc32 /dev/stdin)
+# echo -n $(cat /sys/class/dmi/id/product_sku) | crc32 /dev/stdin
+PRODUCT_SKU_CRC32=$(echo -n $PRODUCT_SKU | crc32 /dev/stdin)
 
 
-echo "$SYS_VENDOR:" | tee $OUTPUT_FILE
-cat $SYS_VENDOR | tee -a $OUTPUT_FILE
+echo "SYS_VENDOR String Value: $SYS_VENDOR:" | tee $OUTPUT_FILE
 echo "CRC32 checksum value for SYS_VENDOR:" | tee -a $OUTPUT_FILE
-SYS_VENDOR_CRC32=$(crc32 $SYS_VENDOR) 
 echo $SYS_VENDOR_CRC32 | tee -a $OUTPUT_FILE
 
 echo "" | tee -a $OUTPUT_FILE
 
-echo "$PRODUCT_NAME:" | tee -a $OUTPUT_FILE
-cat $PRODUCT_NAME | tee -a $OUTPUT_FILE
+echo "PRODUCT_NAME String Value: $PRODUCT_NAME:" | tee -a $OUTPUT_FILE
 echo "CRC32 checksum value for PRODUCT_NAME:" | tee -a $OUTPUT_FILE
-PRODUCT_NAME_CRC32=$(crc32 $PRODUCT_NAME) 
 echo $PRODUCT_NAME_CRC32 | tee -a $OUTPUT_FILE
 
 
 echo "" | tee -a $OUTPUT_FILE
 
-echo "$PRODUCT_SKU:" | tee -a $OUTPUT_FILE
-cat $PRODUCT_SKU | tee -a $OUTPUT_FILE
+echo "PRODUCT_SKU String Value: $PRODUCT_SKU:" | tee -a $OUTPUT_FILE
 echo "CRC32 checksum value for PRODUCT_SKU:" | tee -a $OUTPUT_FILE
-PRODUCT_SKU_CRC32=$(crc32 $PRODUCT_SKU) 
 echo $PRODUCT_SKU_CRC32 | tee -a $OUTPUT_FILE
 
 echo "" | tee -a $OUTPUT_FILE
