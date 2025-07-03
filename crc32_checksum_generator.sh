@@ -5,6 +5,9 @@
 # /sys/class/dmi/id/product_name
 # sys/class/dmi/id/product_sku
 
+# if crc32 is not found, install using:
+# sudo apt install libarchive-zip-perl
+
 
 #set -x # Enable debugging: Prints each command before execution
 
