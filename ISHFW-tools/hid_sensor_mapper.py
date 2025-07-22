@@ -1,10 +1,8 @@
-#!/usr/bin/env python3
-
 import os
 import re
 
-# Mapping of HID usage IDs to sensor types
-sensor_map = {
+# Mapping of HID sensor usage IDs to human-readable sensor types
+sensor_type_map = {
     "200001": "Sensor Collection",
     "200073": "Accelerometer 3D",
     "200076": "Ambient Light Sensor",
@@ -22,18 +20,27 @@ sensor_map = {
 }
 
 def find_hid_sensors(base_path="/sys/devices"):
+    sensor_info = []
     for root, dirs, files in os.walk(base_path):
         for dir_name in dirs:
             if "HID-SENSOR" in dir_name:
                 usage_id_match = re.search(r"HID-SENSOR-([0-9a-fA-F]+|INT-\d+)", dir_name)
                 if usage_id_match:
                     usage_id = usage_id_match.group(1)
-                    sensor_type = sensor_map.get(usage_id, "Unknown Sensor Type")
+                    sensor_type = sensor_type_map.get(usage_id, "Unknown Sensor Type")
                     full_path = os.path.join(root, dir_name)
-                    print(f"Path: {full_path}")
-                    print(f"  Usage ID: {usage_id}")
-                    print(f"  Sensor Type: {sensor_type}
-")
+                    sensor_info.append((full_path, usage_id, sensor_type))
+    return sensor_info
+
+def main():
+    sensors = find_hid_sensors()
+    if not sensors:
+        print("No HID sensors found.")
+    else:
+        for path, usage_id, sensor_type in sensors:
+            print("Path: {path}")
+            print("  Usage ID: {usage_id}")
+            print("  Sensor Type: {sensor_type}\n")
 
 if __name__ == "__main__":
-    find_hid_sensors()
+    main()
