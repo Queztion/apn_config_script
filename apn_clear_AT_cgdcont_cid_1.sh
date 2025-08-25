@@ -3,6 +3,11 @@
 # Clear 5G apn leftover so 4G apn can be used properly.
 #mmcli -m any --command='AT+cgdcont=4'
 
+
+# ANSI escape code for light green
+LIGHT_GREEN='\033[1;32m'
+
+
 # Check currrent APN:
 mmcli -m any --command='AT+cgdcont?'
 
@@ -20,6 +25,9 @@ fi
 echo "Sending command: AT+CGDCONT=$cid"
 
 mmcli -m any --command="AT+CGDCONT=$cid"
+
+
+NC='\033[0m' # No Color (reset)
 
 
 #echo -e "AT+CGDCONT=$cid\r" > /dev/ttyUSB0
